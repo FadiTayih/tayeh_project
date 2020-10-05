@@ -2,7 +2,7 @@ import React from 'react';
 import OfferListInterest from './OfferListInterest';
 import { Button, Icon, Item, List, Segment } from 'semantic-ui-react';
 
-export default function OfferListItems({ offer }) {
+export default function OfferListItems({ offer, selectedOffer, deleteOffer }) {
   return (
     <Segment.Group>
       {/* main car image and date/area  */}
@@ -11,7 +11,7 @@ export default function OfferListItems({ offer }) {
           <Item>
             <Item.Image size='large' src={offer.carPhotoURL} />
             <Item.Content>
-              <Item.Header content={offer.title} />
+              <Item.Header content={offer.name} />
               <Item.Description>Offer by {offer.createdBy}</Item.Description>
               <Item.Description>Category: {offer.category}</Item.Description>
             </Item.Content>
@@ -37,7 +37,19 @@ export default function OfferListItems({ offer }) {
       {/* Button */}
       <Segment clearing>
         <div>{offer.description}</div>
-        <Button color='teal' floated='right' content='view' />
+        <div>VIN Number : {offer.vin}</div>
+        <Button
+          color='teal'
+          floated='right'
+          content='view'
+          onClick={() => selectedOffer(offer)}
+        />
+        <Button
+          color='red'
+          floated='right'
+          content='delete'
+          onClick={() => deleteOffer(offer.id)}
+        />
       </Segment>
     </Segment.Group>
   );

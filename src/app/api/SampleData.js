@@ -1,7 +1,7 @@
 export const sampleData = [
   {
     id: '1',
-    title: 'Kia',
+    name: 'Kia',
     date: '2018-03-21',
     category: 'Sedan',
     description:
@@ -10,6 +10,7 @@ export const sampleData = [
     area: '1 str street',
     createdBy: 'Bob',
     carPhotoURL: '/assests/images/carImage1.png',
+    vin: '123',
     interested: [
       {
         id: 'a',
@@ -25,7 +26,7 @@ export const sampleData = [
   },
   {
     id: '2',
-    title: 'Ford',
+    name: 'Ford',
     date: '2018-03-18',
     category: 'SUV',
     description:
@@ -34,6 +35,7 @@ export const sampleData = [
     area: '2 str street',
     createdBy: 'Tom',
     carPhotoURL: '/assests/images/carImage2.png',
+    vin: '345',
     interested: [
       {
         id: 'a',
