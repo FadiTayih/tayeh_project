@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Header, Segment } from 'semantic-ui-react';
 import cuid from 'cuid';
+import { Link } from 'react-router-dom';
 
 export default function OfferForm({
   setFormOpen,
@@ -102,7 +103,8 @@ export default function OfferForm({
         </Form.Field>
         <Button type='submit' positive floated='right' content='Submit' />
         <Button
-          onClick={() => setFormOpen(false)}
+          as={Link}
+          to={'/offers'}
           type='submit'
           floated='right'
           content='Cancel'

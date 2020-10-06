@@ -1,33 +1,27 @@
 import React, { useState } from 'react';
 import OfferList from './OfferList';
-import OfferForm from '../offerForm/OfferForm';
+
 import { Grid, GridColumn } from 'semantic-ui-react';
 import { sampleData } from './../../../app/api/SampleData';
 
 // OfferDashBoared is the parent component of OfferList (Child), sample Data is pasted to OfferList
-export default function OffersDashBorad({
-  formOpen,
-  setFormOpen,
-  selectOffer,
-  selectedOffer,
-}) {
+export default function OffersDashBorad() {
   // past the sample data as offer to other components
   const [offers, setOffers] = useState(sampleData);
 
-  // create a new offer
-  function handleCreateOffer(offer) {
-    setOffers([...offers, offer]);
-  }
+  // // create a new offer
+  // function handleCreateOffer(offer) {
+  //   setOffers([...offers, offer]);
+  // }
 
-  // update the offer
-  function handleUpdateOffer(updatedOffer) {
-    setOffers(
-      offers.map((offer) =>
-        offer.id === updatedOffer.id ? updatedOffer : offer
-      )
-    );
-    selectOffer(null);
-  }
+  // // update the offer
+  // function handleUpdateOffer(updatedOffer) {
+  //   setOffers(
+  //     offers.map((offer) =>
+  //       offer.id === updatedOffer.id ? updatedOffer : offer
+  //     )
+  //   );
+  // }
 
   // delete an offer
   function handleDeleteOffer(offerId) {
@@ -37,23 +31,10 @@ export default function OffersDashBorad({
   return (
     <Grid>
       <GridColumn width={10}>
-        <OfferList
-          offers={offers}
-          selectedOffer={selectOffer}
-          deleteOffer={handleDeleteOffer}
-        />
+        <OfferList offers={offers} deleteOffer={handleDeleteOffer} />
       </GridColumn>
       <GridColumn width={6}>
-        {formOpen && (
-          <OfferForm
-            setFormOpen={setFormOpen}
-            setOffers={setOffers}
-            createOffer={handleCreateOffer}
-            selectedOffer={selectedOffer}
-            updatedOffer={handleUpdateOffer}
-            key={selectedOffer ? selectedOffer.id : null}
-          />
-        )}
+        <h2>Offer Filter</h2>
       </GridColumn>
     </Grid>
   );

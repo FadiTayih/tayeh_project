@@ -1,6 +1,7 @@
 import React from 'react';
 import OfferListInterest from './OfferListInterest';
 import { Button, Icon, Item, List, Segment } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 export default function OfferListItems({ offer, selectedOffer, deleteOffer }) {
   return (
@@ -42,7 +43,8 @@ export default function OfferListItems({ offer, selectedOffer, deleteOffer }) {
           color='teal'
           floated='right'
           content='view'
-          onClick={() => selectedOffer(offer)}
+          as={Link}
+          to={`/offers/${offer.id}`}
         />
         <Button
           color='red'
