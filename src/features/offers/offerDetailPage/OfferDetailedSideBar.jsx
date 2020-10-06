@@ -1,7 +1,7 @@
 import React from 'react';
 import { Segment, Item } from 'semantic-ui-react';
 
-export default function OfferDetailedSideBar() {
+export default function OfferDetailedSideBar({ interested }) {
   return (
     <>
       <Segment
@@ -12,26 +12,27 @@ export default function OfferDetailedSideBar() {
         inverted
         color='teal'
       >
-        2 people are interested
+        {/* How many people are interested */}
+        {interested.length} {interested.length > 1 ? 'people' : 'person'} are
+        interested
       </Segment>
       <Segment attached>
         <Item.Group relaxed divided>
-          <Item style={{ position: 'relative' }}>
-            <Item.Image size='tiny' src='/assests/images/user.png' />
-            <Item.Content verticalAlign='middle'>
-              <Item.Header as='h3'>
-                <span>Tom</span>
-              </Item.Header>
-            </Item.Content>
-          </Item>
-          <Item style={{ position: 'relative' }}>
-            <Item.Image size='tiny' src='/assests/images/user.png' />
-            <Item.Content verticalAlign='middle'>
-              <Item.Header as='h3'>
-                <span>Bob</span>
-              </Item.Header>
-            </Item.Content>
-          </Item>
+          {/* Loop throught the interested people */}
+          {interested.map((interest) => (
+            <Item key={interest.id} style={{ position: 'relative' }}>
+              {/* interested photos */}
+              <Item.Image
+                size='tiny'
+                src={interest.photoURL || '/assests/images/user.png'}
+              />
+              <Item.Content verticalAlign='middle'>
+                <Item.Header as='h3'>
+                  <span>{interest.name}</span>
+                </Item.Header>
+              </Item.Content>
+            </Item>
+          ))}
         </Item.Group>
       </Segment>
     </>

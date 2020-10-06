@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { Button, Form, Header, Segment } from 'semantic-ui-react';
 import cuid from 'cuid';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { createOffer, updateOffer } from '../../offerActions';
 
-export default function OfferForm({
-  setFormOpen,
-  setOffers,
-  createOffer,
-  selectedOffer,
-  updatedOffer,
-}) {
+export default function OfferForm({ match, history }) {
+  // offer is the name of reducer, offers is the name of the state,
+  // find the id from the url params and match it with id in the redux store
+  const selectedOffer = useSelector((state) =>
+    state.offer.offers.find((e) => e.id === match.params.id)
+  );
+
+  const dispatch = useDispatch();
+
   // if the selectedOffer is null, then use the empty object
   const initialValues = selectedOffer ?? {
     name: '',
@@ -27,15 +31,17 @@ export default function OfferForm({
   // is not null then when press submit update the offer
   function handFormSubmit() {
     selectedOffer
-      ? updatedOffer({ ...selectedOffer, ...values })
-      : createOffer({
-          ...values,
-          id: cuid(),
-          createdBy: 'Bob',
-          interested: [],
-          carPhotoURL: '/assests/images/carImage1.png',
-        });
-    setFormOpen(false);
+      ? dispatch(updateOffer({ ...selectedOffer, ...values }))
+      : dispatch(
+          createOffer({
+            ...values,
+            id: cuid(),
+            createdBy: 'Bob',
+            interested: [],
+            carPhotoURL: '/assests/images/carImage1.png',
+          })
+        );
+    history.push('/offers');
   }
 
   // handle the input change, two way binding

@@ -4,7 +4,7 @@ import { Button, Container, Menu } from 'semantic-ui-react';
 import SignedInMenu from './SignedInMenu';
 import SignedOutMenu from './SignedOutMenu';
 
-export default function NavBar({ setFormOpen }) {
+export default function NavBar() {
   // custom hook from react to enable the use of the history prop in navBar
   const history = useHistory();
 
@@ -30,6 +30,7 @@ export default function NavBar({ setFormOpen }) {
           Tayeh
         </Menu.Item>
         {/* route to the offers */}
+        <Menu.Item as={NavLink} to='/sandbox' name='Sandbox' />
         <Menu.Item as={NavLink} to='/offers' name='Cars' />
 
         {/* route to create offer page */}

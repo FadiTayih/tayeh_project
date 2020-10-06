@@ -11,11 +11,11 @@ const eventImageTextStyle = {
   color: 'white',
 };
 
-export default function OfferDetailedHeader() {
+export default function OfferDetailedHeader({ offer }) {
   return (
     <Segment.Group>
       <Segment basic attached='top' style={{ padding: '0' }}>
-        <Image size='huge' src={`/assests/images/carImage1.png`} />
+        <Image size='huge' src={offer.carPhotoURL} />
 
         <Segment basic style={eventImageTextStyle}>
           <Item.Group>
@@ -23,12 +23,12 @@ export default function OfferDetailedHeader() {
               <Item.Content>
                 <Header
                   size='large'
-                  content='Offer Title'
+                  content={offer.name}
                   style={{ color: 'white' }}
                 />
-                <p>Event Date</p>
+                <p>Event Date : {offer.date}</p>
                 <p>
-                  Offered by <strong>Bob</strong>
+                  Offered by <strong>{offer.createdBy}</strong>
                 </p>
               </Item.Content>
             </Item>
@@ -40,7 +40,12 @@ export default function OfferDetailedHeader() {
         <Button>Cancel My Place</Button>
         <Button color='teal'>JOIN THIS Offer</Button>
 
-        <Button as={Link} to={`/manage/`} color='orange' floated='right'>
+        <Button
+          as={Link}
+          to={`/manage/${offer.id}`}
+          color='orange'
+          floated='right'
+        >
           Manage Offer
         </Button>
       </Segment>

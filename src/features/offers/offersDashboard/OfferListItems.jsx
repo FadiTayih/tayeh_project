@@ -2,8 +2,11 @@ import React from 'react';
 import OfferListInterest from './OfferListInterest';
 import { Button, Icon, Item, List, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { deleteOffer } from '../../offerActions';
+import { useDispatch } from 'react-redux';
 
-export default function OfferListItems({ offer, selectedOffer, deleteOffer }) {
+export default function OfferListItems({ offer }) {
+  const dispatch = useDispatch();
   return (
     <Segment.Group>
       {/* main car image and date/area  */}
@@ -50,7 +53,7 @@ export default function OfferListItems({ offer, selectedOffer, deleteOffer }) {
           color='red'
           floated='right'
           content='delete'
-          onClick={() => deleteOffer(offer.id)}
+          onClick={() => dispatch(deleteOffer(offer.id))}
         />
       </Segment>
     </Segment.Group>
