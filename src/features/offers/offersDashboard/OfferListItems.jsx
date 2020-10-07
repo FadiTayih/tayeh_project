@@ -4,6 +4,7 @@ import { Button, Icon, Item, List, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { deleteOffer } from '../../offerActions';
 import { useDispatch } from 'react-redux';
+import { format } from 'date-fns';
 
 export default function OfferListItems({ offer }) {
   const dispatch = useDispatch();
@@ -15,16 +16,19 @@ export default function OfferListItems({ offer }) {
           <Item>
             <Item.Image size='large' src={offer.carPhotoURL} />
             <Item.Content>
-              <Item.Header content={offer.name} />
-              <Item.Description>Offer by {offer.createdBy}</Item.Description>
-              <Item.Description>Category: {offer.category}</Item.Description>
+              <Item.Header content={offer.brand} />
+              <Item.Description>Car Name : {offer.name}</Item.Description>
+              <Item.Description>Body Type: {offer.bodyType}</Item.Description>
+              <Item.Description>Price: {offer.price}</Item.Description>
+              <Item.Description>Mileage: {offer.mileage}</Item.Description>
             </Item.Content>
           </Item>
         </Item.Group>
       </Segment>
       <Segment>
         <span>
-          <Icon name='clock' /> {offer.date}
+          <Icon name='clock' />{' '}
+          {format(offer.expiryDateofReg, 'MMMM d, yyyy h:mm a')}
           <Icon name='marker' /> {offer.city}
         </span>
       </Segment>
@@ -40,8 +44,14 @@ export default function OfferListItems({ offer }) {
 
       {/* Button */}
       <Segment clearing>
-        <div>{offer.description}</div>
-        <div>VIN Number : {offer.vin}</div>
+        <div>Transmission: {offer.transmission}</div>
+        <div>Condition : {offer.condition}</div>
+        <div>Body Type : {offer.bodyType}</div>
+        <div>Color : {offer.color}</div>
+        <div>Fuel : {offer.fuel}</div>
+        <div>Color : {offer.color}</div>
+        <div>Country Manufacture : {offer.countryManufacture}</div>
+        <div>Country Of Origin : {offer.countryOfOrigin}</div>
         <Button
           color='teal'
           floated='right'

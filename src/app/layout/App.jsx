@@ -7,6 +7,7 @@ import HomePage from '../../features/home/HomePage';
 import { Route, useLocation } from 'react-router-dom';
 import OfferForm from '../../features/offers/offerForm/OfferForm';
 import SandBox from '../../features/sandbox/Sandbox';
+import ModalManager from '../common/modals/ModalManager';
 
 function App() {
   // custom hook from react router, to access the location props
@@ -14,6 +15,8 @@ function App() {
   const { key } = useLocation();
   return (
     <Fragment>
+      {/* manager the opening and closing of the modal */}
+      <ModalManager />
       {/* Route goes to the home page */}
       <Route exact path='/' component={HomePage} />
       {/* If the URL has more params then route to the other pages */}

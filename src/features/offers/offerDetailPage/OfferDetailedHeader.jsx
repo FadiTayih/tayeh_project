@@ -26,7 +26,6 @@ export default function OfferDetailedHeader({ offer }) {
                   content={offer.name}
                   style={{ color: 'white' }}
                 />
-                <p>Event Date : {offer.date}</p>
                 <p>
                   Offered by <strong>{offer.createdBy}</strong>
                 </p>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Segment, Grid, Icon, Button } from 'semantic-ui-react';
+import { format } from 'date-fns';
 
 export default function OfferDetailedInfo({ offer }) {
   return (
@@ -10,7 +11,8 @@ export default function OfferDetailedInfo({ offer }) {
             <Icon size='large' color='teal' name='info' />
           </Grid.Column>
           <Grid.Column width={15}>
-            <p>Offer Description : {offer.description}</p>
+            <p>VIN : {offer.vin}</p>
+            <p>Options : {offer.options}</p>
           </Grid.Column>
         </Grid>
       </Segment>
@@ -20,7 +22,10 @@ export default function OfferDetailedInfo({ offer }) {
             <Icon name='calendar' size='large' color='teal' />
           </Grid.Column>
           <Grid.Column width={15}>
-            <span>Offer Date: {offer.date}</span>
+            <span>
+              Expiry of Reg. Insurance:{' '}
+              {format(offer.expiryDateofReg, 'MMMM d, yyyy h:mm a')}
+            </span>
           </Grid.Column>
         </Grid>
       </Segment>
@@ -31,7 +36,7 @@ export default function OfferDetailedInfo({ offer }) {
           </Grid.Column>
           <Grid.Column width={11}>
             <span>
-              Area: {offer.city}   {offer.area}
+              Area: {offer.city} {offer.area}
             </span>
           </Grid.Column>
           <Grid.Column width={4}>
