@@ -8,6 +8,7 @@ import { Route, useLocation } from 'react-router-dom';
 import OfferForm from '../../features/offers/offerForm/OfferForm';
 import SandBox from '../../features/sandbox/Sandbox';
 import ModalManager from '../common/modals/ModalManager';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   // custom hook from react router, to access the location props
@@ -15,6 +16,8 @@ function App() {
   const { key } = useLocation();
   return (
     <Fragment>
+      {/* Show Error Messages */}
+      <ToastContainer position='bottom-right' hideProgressBarnde />
       {/* manager the opening and closing of the modal */}
       <ModalManager />
       {/* Route goes to the home page */}

@@ -7,12 +7,58 @@ export default function OfferDetailedInfo({ offer }) {
     <Segment.Group>
       <Segment attached='top'>
         <Grid>
-          <Grid.Column width={1}>
+          {/* <Grid.Column width={1}>
             <Icon size='large' color='teal' name='info' />
-          </Grid.Column>
+          </Grid.Column> */}
           <Grid.Column width={15}>
-            <p>VIN : {offer.vin}</p>
-            <p>Options : {offer.options}</p>
+            <div className='ui floating message'>
+              <p>
+                Transmission: <strong>{offer.transmission}</strong>{' '}
+              </p>
+            </div>
+            <div className='ui floating message'>
+              <p>
+                Condition : <strong> {offer.condition}</strong>{' '}
+              </p>
+            </div>
+            <div className='ui floating message'>
+              <p>
+                Body Type : <strong>{offer.bodyType}</strong>{' '}
+              </p>
+            </div>
+            <div className='ui floating message'>
+              <p>
+                Color : <strong> {offer.color} </strong>{' '}
+              </p>
+            </div>
+            <div className='ui floating message'>
+              <p>
+                Fuel : <strong> {offer.fuel} </strong>
+              </p>
+            </div>
+            <div className='ui floating message'>
+              <p>
+                Country Manufacture :{' '}
+                <strong> {offer.countryManufacture} </strong>{' '}
+              </p>
+            </div>
+           
+            <div className='ui floating message'>
+              <p>
+                Country Of Origin : <strong> {offer.countryOfOrigin}</strong>{' '}
+              </p>
+            </div>
+
+            <div className='ui floating message'>
+              <p>
+                VIN : <strong>{offer.vin}</strong>
+              </p>
+            </div>
+            <div className='ui floating message'>
+              <p>
+                Options : <strong>{offer.options}</strong>{' '}
+              </p>
+            </div>
           </Grid.Column>
         </Grid>
       </Segment>

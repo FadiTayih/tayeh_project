@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
+import 'react-toastify/dist/ReactToastify.min.css';
+import 'react-calendar/dist/Calendar.css';
 import './app/layout/style.css';
 import App from './app/layout/App';
 import * as serviceWorker from './serviceWorker';
@@ -8,10 +10,13 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import ConfigStore from './app/store/configerStore';
 import ScrollToTop from './app/layout/ScrollToTop';
+import { loadOffers } from './features/offerActions';
 
 const rootEl = document.getElementById('root');
 
 const store = ConfigStore();
+
+store.dispatch(loadOffers());
 
 function render() {
   ReactDOM.render(

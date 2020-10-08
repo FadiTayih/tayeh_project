@@ -6,6 +6,7 @@ import { deleteOffer } from '../../offerActions';
 import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
 
+
 export default function OfferListItems({ offer }) {
   const dispatch = useDispatch();
   return (
@@ -16,11 +17,40 @@ export default function OfferListItems({ offer }) {
           <Item>
             <Item.Image size='large' src={offer.carPhotoURL} />
             <Item.Content>
-              <Item.Header content={offer.brand} />
-              <Item.Description>Car Name : {offer.name}</Item.Description>
-              <Item.Description>Body Type: {offer.bodyType}</Item.Description>
-              <Item.Description>Price: {offer.price}</Item.Description>
-              <Item.Description>Mileage: {offer.mileage}</Item.Description>
+              <Item.Header>
+                <div class='ui floating message'>
+                  <p>{offer.brand}</p>
+                </div>
+              </Item.Header>
+              <Item.Description>
+                <div class='ui floating message'>
+                  <strong> {offer.name}</strong>
+                </div>
+              </Item.Description>
+              <Item.Description>
+                <div class='ui floating message'>
+                  <strong>
+                    {' '}
+                    <i class='car icon'></i> {offer.bodyType}
+                  </strong>
+                </div>
+              </Item.Description>
+              <Item.Description>
+                <div class='ui floating message'>
+                  <strong>
+                    {' '}
+                    <i class='dollar sign icon'></i> {offer.price}
+                  </strong>
+                </div>
+              </Item.Description>
+              <Item.Description>
+                <div class='ui floating message'>
+                  <strong>
+                    {' '}
+                    <i class='road icon'></i> {offer.mileage}
+                  </strong>
+                </div>
+              </Item.Description>
             </Item.Content>
           </Item>
         </Item.Group>
@@ -44,14 +74,7 @@ export default function OfferListItems({ offer }) {
 
       {/* Button */}
       <Segment clearing>
-        <div>Transmission: {offer.transmission}</div>
-        <div>Condition : {offer.condition}</div>
-        <div>Body Type : {offer.bodyType}</div>
-        <div>Color : {offer.color}</div>
-        <div>Fuel : {offer.fuel}</div>
-        <div>Color : {offer.color}</div>
-        <div>Country Manufacture : {offer.countryManufacture}</div>
-        <div>Country Of Origin : {offer.countryOfOrigin}</div>
+      
         <Button
           color='teal'
           floated='right'
