@@ -21,7 +21,6 @@ export function increment(amount) {
     dispatch(aysncActionStart());
     try {
       await delay(1000);
-      throw 'opps';
       dispatch({ type: INCREMENT_DATA, payload: amount });
       dispatch(aysncActionFinish());
     } catch (error) {

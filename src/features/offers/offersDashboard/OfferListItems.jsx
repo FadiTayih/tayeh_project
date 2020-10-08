@@ -6,7 +6,6 @@ import { deleteOffer } from '../../offerActions';
 import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
 
-
 export default function OfferListItems({ offer }) {
   const dispatch = useDispatch();
   return (
@@ -18,36 +17,36 @@ export default function OfferListItems({ offer }) {
             <Item.Image size='large' src={offer.carPhotoURL} />
             <Item.Content>
               <Item.Header>
-                <div class='ui floating message'>
+                <div className='ui floating message'>
                   <p>{offer.brand}</p>
                 </div>
               </Item.Header>
               <Item.Description>
-                <div class='ui floating message'>
+                <div className='ui floating message'>
                   <strong> {offer.name}</strong>
                 </div>
               </Item.Description>
               <Item.Description>
-                <div class='ui floating message'>
+                <div className='ui floating message'>
                   <strong>
                     {' '}
-                    <i class='car icon'></i> {offer.bodyType}
+                    <i className='car icon'></i> {offer.bodyType}
                   </strong>
                 </div>
               </Item.Description>
               <Item.Description>
-                <div class='ui floating message'>
+                <div className='ui floating message'>
                   <strong>
                     {' '}
-                    <i class='dollar sign icon'></i> {offer.price}
+                    <i className='dollar sign icon'></i> {offer.price}
                   </strong>
                 </div>
               </Item.Description>
               <Item.Description>
-                <div class='ui floating message'>
+                <div className='ui floating message'>
                   <strong>
                     {' '}
-                    <i class='road icon'></i> {offer.mileage}
+                    <i className='road icon'></i> {offer.mileage}
                   </strong>
                 </div>
               </Item.Description>
@@ -74,7 +73,6 @@ export default function OfferListItems({ offer }) {
 
       {/* Button */}
       <Segment clearing>
-      
         <Button
           color='teal'
           floated='right'

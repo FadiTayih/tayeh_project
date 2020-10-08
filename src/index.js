@@ -10,13 +10,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import ConfigStore from './app/store/configerStore';
 import ScrollToTop from './app/layout/ScrollToTop';
-import { loadOffers } from './features/offerActions';
 
 const rootEl = document.getElementById('root');
 
 const store = ConfigStore();
-
-store.dispatch(loadOffers());
 
 function render() {
   ReactDOM.render(

@@ -1,4 +1,3 @@
-import { sampleData } from '../app/api/SampleData';
 import {
   CREATE_OFFER,
   UPDATE_OFFER,

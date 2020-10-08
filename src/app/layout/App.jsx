@@ -9,6 +9,7 @@ import OfferForm from '../../features/offers/offerForm/OfferForm';
 import SandBox from '../../features/sandbox/Sandbox';
 import ModalManager from '../common/modals/ModalManager';
 import { ToastContainer } from 'react-toastify';
+import ErrorComponent from '../errors/ErrorComponent';
 
 function App() {
   // custom hook from react router, to access the location props
@@ -17,11 +18,13 @@ function App() {
   return (
     <Fragment>
       {/* Show Error Messages */}
-      <ToastContainer position='bottom-right' hideProgressBarnde />
+      <ToastContainer position='bottom-right' hideProgressBar />
       {/* manager the opening and closing of the modal */}
       <ModalManager />
       {/* Route goes to the home page */}
       <Route exact path='/' component={HomePage} />
+      {/* Route to the error page */}
+      <Route path='/errors' component={ErrorComponent} />
       {/* If the URL has more params then route to the other pages */}
       <Route
         path={'/(.+)'}

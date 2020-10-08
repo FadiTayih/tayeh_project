@@ -11,7 +11,6 @@ import {
 } from '../app/async/asyncReducer';
 import { fetchSamples } from '../app/api/mockApi';
 
-
 export function loadOffers() {
   return async function (dispatch) {
     dispatch(aysncActionStart());
@@ -22,6 +21,14 @@ export function loadOffers() {
     } catch (error) {
       dispatch(aysncActionError());
     }
+  };
+}
+
+// fetching offers from fireStore
+export function listenToOffers(offers) {
+  return {
+    type: FETCH_OFFERs,
+    payload: offers,
   };
 }
 
