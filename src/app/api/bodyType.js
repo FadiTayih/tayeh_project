@@ -2,16 +2,16 @@ export const bodyType = [
   {
     key: '1',
     text: 'SUV',
-    value: 'SUV',
+    value: 'suv',
   },
   {
     key: '2',
     text: 'Sedan',
-    value: 'Sedan',
+    value: 'sedan',
   },
   {
     key: '3',
     text: 'HatchBack',
-    value: 'HatchBack',
+    value: 'hatchBack',
   },
 ];

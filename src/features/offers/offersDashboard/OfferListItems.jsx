@@ -1,13 +1,10 @@
 import React from 'react';
 import OfferListInterest from './OfferListInterest';
-import { Button, Icon, Item, List, Segment } from 'semantic-ui-react';
+import { Button, Icon, Item, Label, List, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { deleteOffer } from '../../offerActions';
-import { useDispatch } from 'react-redux';
-import { format } from 'date-fns';
+import { deleteOfferInFireBase } from '../../../app/firebase/fireBaseService';
 
 export default function OfferListItems({ offer }) {
-  const dispatch = useDispatch();
   return (
     <Segment.Group>
       {/* main car image and date/area  */}
@@ -16,6 +13,14 @@ export default function OfferListItems({ offer }) {
           <Item>
             <Item.Image size='large' src={offer.carPhotoURL} />
             <Item.Content>
+              {offer.isCancelled && (
+                <Label
+                  style={{ top: '-40px' }}
+                  ribbon='right'
+                  color='red'
+                  content='This offer has been cancelled'
+                />
+              )}
               <Item.Header>
                 <div className='ui floating message'>
                   <p>{offer.brand}</p>
@@ -56,8 +61,6 @@ export default function OfferListItems({ offer }) {
       </Segment>
       <Segment>
         <span>
-          <Icon name='clock' />{' '}
-          {format(offer.expiryDateofReg, 'MMMM d, yyyy h:mm a')}
           <Icon name='marker' /> {offer.city}
         </span>
       </Segment>
@@ -84,7 +87,7 @@ export default function OfferListItems({ offer }) {
           color='red'
           floated='right'
           content='delete'
-          onClick={() => dispatch(deleteOffer(offer.id))}
+          onClick={() => deleteOfferInFireBase(offer.id)}
         />
       </Segment>
     </Segment.Group>

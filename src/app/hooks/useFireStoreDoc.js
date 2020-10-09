@@ -8,11 +8,14 @@ import {
 } from '../async/asyncReducer';
 
 // getting colelction from fireStore
-export default function useFireStoreDoc({ query, data, deps }) {
+export default function useFireStoreDoc({ query, data, deps, shouldExectue }) {
   const dispatch = useDispatch();
 
   // Component mount
   useEffect(() => {
+    // if we are creating a new offer, dont read the document
+    if (!shouldExectue) return;
+
     // Start the loading indicator
     dispatch(aysncActionStart());
 

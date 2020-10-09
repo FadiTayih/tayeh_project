@@ -2,31 +2,31 @@ export const LogoData = [
   {
     key: '1',
     text: 'Kia',
-    value: 'kia',
+    value: 'Kia',
     image: { avatar: true, src: '/assests/images/kia.png' },
   },
   {
     key: '2',
     text: 'Ford',
-    value: 'ford',
+    value: 'Frd',
     image: { avatar: true, src: '/assests/images/ford.png' },
   },
   {
     key: '3',
     text: 'BMW',
-    value: 'bwm',
+    value: 'Bwm',
     image: { avatar: true, src: '/assests/images/bmw.png' },
   },
   {
     key: '4',
     text: 'Jeep',
-    value: 'jeep',
+    value: 'Jeep',
     image: { avatar: true, src: '/assests/images/jeep.png' },
   },
   {
     key: '5',
     text: 'Nissan',
-    value: 'nissan',
+    value: 'Nissan',
     image: { avatar: true, src: '/assests/images/nissan.png' },
   },
 ];

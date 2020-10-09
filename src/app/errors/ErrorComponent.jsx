@@ -7,7 +7,7 @@ export default function ErrorComponent() {
   const { error } = useSelector((state) => state.async);
 
   return (
-    <Segment placeholder>
+    <Segment placeholder style={{ marginTop: 110 }}>
       <Header
         textAlign='center'
         content={error?.message || 'Something went wrong'}

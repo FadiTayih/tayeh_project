@@ -18,6 +18,11 @@ export default function OfferDetailedInfo({ offer }) {
             </div>
             <div className='ui floating message'>
               <p>
+                Body Type: <strong>{offer.bodyType}</strong>{' '}
+              </p>
+            </div>
+            <div className='ui floating message'>
+              <p>
                 Condition : <strong> {offer.condition}</strong>{' '}
               </p>
             </div>
@@ -42,7 +47,7 @@ export default function OfferDetailedInfo({ offer }) {
                 <strong> {offer.countryManufacture} </strong>{' '}
               </p>
             </div>
-           
+
             <div className='ui floating message'>
               <p>
                 Country Of Origin : <strong> {offer.countryOfOrigin}</strong>{' '}

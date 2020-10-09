@@ -1,3 +1,4 @@
+import cuid from 'cuid';
 import firebase from '../config/fireBase';
 
 const db = firebase.firestore();
@@ -22,7 +23,7 @@ export function dataFromFireStore(snapShot) {
   };
 }
 
-// connecting to the collection in fireStore
+// listing and getting the offers
 export function listenToOffersFromFireBase() {
   return db.collection('offers');
 }
@@ -30,4 +31,35 @@ export function listenToOffersFromFireBase() {
 // connecting to the document in firebase
 export function listentoOfferFromFireBase(offerId) {
   return db.collection('offers').doc(offerId);
+}
+
+// add doc to firebase
+export function addOfferToFireBase(offer) {
+  return db.collection('offers').add({
+    ...offer,
+    createdBy: 'Bob',
+    carPhotoURL: '/assests/images/carImage1.png',
+    interested: firebase.firestore.FieldValue.arrayUnion({
+      id: cuid(),
+      name: 'jeans',
+      photoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
+    }),
+  });
+}
+
+// update doc in firebase
+export function updateOfferInFireBase(offer) {
+  return db.collection('offers').doc(offer.id).update(offer);
+}
+
+// delete an offer
+export function deleteOfferInFireBase(offerId) {
+  return db.collection('offers').doc(offerId).delete();
+}
+
+// cancel an offer
+export function cancelOfferInFireBase(offer) {
+  return db.collection('offers').doc(offer.id).update({
+    isCancelled: !offer.isCancelled,
+  });
 }

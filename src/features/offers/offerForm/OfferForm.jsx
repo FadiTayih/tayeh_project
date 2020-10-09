@@ -1,9 +1,7 @@
-import React from 'react';
-import { Button, Header, Segment } from 'semantic-ui-react';
-import cuid from 'cuid';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Button, Confirm, Header, Segment } from 'semantic-ui-react';
+import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createOffer, updateOffer } from '../../offerActions';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/common/form/TextInput';
@@ -15,6 +13,16 @@ import { transmission } from '../../../app/api/transmission';
 import { mileage } from '../../../app/api/mileage';
 import { condition } from '../../../app/api/condition';
 import DateInput from '../../../app/common/form/DateInput';
+import useFireStoreDoc from '../../../app/hooks/useFireStoreDoc';
+import {
+  addOfferToFireBase,
+  cancelOfferInFireBase,
+  listentoOfferFromFireBase,
+  updateOfferInFireBase,
+} from '../../../app/firebase/fireBaseService';
+import { listenToOffers } from '../../offerActions';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { toast } from 'react-toastify';
 
 export default function OfferForm({ match, history }) {
   // offer is the name of reducer, offers is the name of the state,
@@ -24,6 +32,23 @@ export default function OfferForm({ match, history }) {
   );
 
   const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.async);
+  const [loadingCancel, setLoadingCancel] = useState(false);
+  const [confirmCancel, setConfirmCancel] = useState(false);
+
+  // handle the offer cancel
+  async function handleOfferCancel(offer) {
+    setConfirmCancel(false);
+    setLoadingCancel(true);
+
+    try {
+      await cancelOfferInFireBase(offer);
+      setLoadingCancel(false);
+    } catch (error) {
+      setLoadingCancel(true);
+      toast.error(error.message);
+    }
+  }
 
   // if the selectedOffer is null, then use the empty object
   const initialValues = selectedOffer ?? {
@@ -65,25 +90,39 @@ export default function OfferForm({ match, history }) {
     vin: Yup.string().required(),
   });
 
+  //  custom hooks to get document from fireStore, if the redux store
+  // does not have the offer
+  useFireStoreDoc({
+    shouldExectue: !!match.params.id,
+    query: () => listentoOfferFromFireBase(match.params.id),
+    data: (offer) => dispatch(listenToOffers([offer])),
+    deps: [match.params.id, dispatch],
+  });
+
+  // check if is it loading
+  if (loading) return <LoadingComponent content='Loading Offers....' />;
+
+  // if there is an error
+  if (error) return <Redirect to='/errors' />;
+
   return (
     <Segment clearing>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        // submiting the form
-        onSubmit={(values) => {
-          selectedOffer
-            ? dispatch(updateOffer({ ...selectedOffer, ...values }))
-            : dispatch(
-                createOffer({
-                  ...values,
-                  id: cuid(),
-                  createdBy: 'Bob',
-                  interested: [],
-                  carPhotoURL: '/assests/images/carImage1.png',
-                })
-              );
-          history.push('/offers');
+        // submiting the form to fireStore
+        onSubmit={async (values, { setSubmitting }) => {
+          try {
+            // if the offer form is selected then update else add a new offer
+            selectedOffer
+              ? await updateOfferInFireBase(values)
+              : await addOfferToFireBase(values);
+            setSubmitting(false);
+            history.push('/offers');
+          } catch (error) {
+            toast.error(error.message);
+            setSubmitting(false);
+          }
         }}
       >
         {/* Main Form Validation */}
@@ -142,6 +181,18 @@ export default function OfferForm({ match, history }) {
               floated='right'
               content='Submit'
             />
+            {selectedOffer && (
+              <Button
+                loading={loadingCancel}
+                type='button'
+                floated='left'
+                color={selectedOffer.isCancelled ? 'green' : 'red'}
+                content={
+                  selectedOffer.isCancelled ? 'Reactive' : 'Cancel Offer'
+                }
+                onClick={() => setConfirmCancel(true)}
+              />
+            )}
             <Button
               disabled={isSubmitting}
               as={Link}
@@ -153,6 +204,17 @@ export default function OfferForm({ match, history }) {
           </Form>
         )}
       </Formik>
+      {/* Confirm message for cancel */}
+      <Confirm
+        content={
+          selectedOffer?.isCancelled
+            ? 'This will reactive your offer - are you sure?'
+            : 'This will cancel your offer - are your sure'
+        }
+        open={confirmCancel}
+        onCancel={() => setConfirmCancel(false)}
+        onConfirm={() => handleOfferCancel(selectedOffer)}
+      />
     </Segment>
   );
 }
