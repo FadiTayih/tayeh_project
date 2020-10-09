@@ -63,3 +63,16 @@ export function cancelOfferInFireBase(offer) {
     isCancelled: !offer.isCancelled,
   });
 }
+
+// Create new user profile document in the databse
+export default function setUserProfileFireBase(user) {
+  return db
+    .collection('users')
+    .doc(user.uid)
+    .set({
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL || null,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+}

@@ -1,0 +1,53 @@
+import { toast } from 'react-toastify';
+import firebase from '../config/fireBase';
+import setUserProfileFireBase from './fireBaseService';
+
+// authenicate and sign in the user
+export function signInWithEmail(creds) {
+  return firebase
+    .auth()
+    .signInWithEmailAndPassword(creds.email, creds.password);
+}
+
+// sign out the user
+export function signOutFireBase() {
+  return firebase.auth().signOut();
+}
+
+// register a user
+export async function registerToFireBase(creds) {
+  try {
+    const result = await firebase
+      .auth()
+      .createUserWithEmailAndPassword(creds.email, creds.password);
+
+    // after registering the user will be automically be login in
+    await result.user.updateProfile({
+      displayName: creds.displayName,
+    });
+
+    // create a new user profile document in the database
+    return await setUserProfileFireBase(result.user);
+  } catch (error) {
+    throw error;
+  }
+}
+
+// Social Logins
+export async function socialLogins(selectedProvider) {
+  let provider;
+  if (selectedProvider === 'facebook') {
+    provider = new firebase.auth.FacebookAuthProvider();
+  }
+  if (selectedProvider === 'google') {
+    provider = new firebase.auth.GoogleAuthProvider();
+  }
+  try {
+    const result = await firebase.auth().signInWithPopup(provider);
+    if (result.additionalUserInfo.isNewUser) {
+      await setUserProfileFireBase(result.user);
+    }
+  } catch (error) {
+    toast.error(error.message);
+  }
+}

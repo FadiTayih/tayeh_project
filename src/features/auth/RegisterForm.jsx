@@ -6,33 +6,35 @@ import TextInput from '../../app/common/form/TextInput';
 import { Button, Divider, Label } from 'semantic-ui-react';
 import { useDispatch } from 'react-redux';
 import { closeModal } from '../../app/common/modals/modalReducer';
-import { signInWithEmail } from '../../app/firebase/fireStoreService';
+import { registerToFireBase } from '../../app/firebase/fireStoreService';
 import SocialLogin from './SocialLogin';
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const dispatch = useDispatch();
 
   return (
-    <ModalWrapper size='mini' header='Sign in to Tayeh'>
+    <ModalWrapper size='mini' header='Register to Tayeh'>
       <Formik
-        initialValues={{ email: '', password: '' }}
+        initialValues={{ displayName: '', email: '', password: '' }}
         validationSchema={Yup.object({
+          displayName: Yup.string().required(),
           email: Yup.string().required().email(),
           password: Yup.string().required(),
         })}
         onSubmit={async (values, { setSubmitting, setErrors }) => {
           try {
-            await signInWithEmail(values);
+            await registerToFireBase(values);
             setSubmitting(false);
             dispatch(closeModal());
           } catch (error) {
-            setErrors({ auth: 'Problem with username or password' });
+            setErrors({ auth: error.message });
             setSubmitting(false);
           }
         }}
       >
         {({ isSubmitting, isValid, dirty, errors }) => (
           <Form className='ui form'>
+            <TextInput name='displayName' placeholder='Display Name' />
             <TextInput name='email' placeholder='Email Address' />
             <TextInput name='password' placeholder='Password' type='password' />
             {errors.auth && (
@@ -49,7 +51,7 @@ export default function LoginForm() {
               type='submit'
               fluid
               color='teal'
-              content='Login
+              content='Register
               '
             />
             <Divider horizontal>Or</Divider>

@@ -1,8 +1,9 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { Dropdown, Image, Menu } from 'semantic-ui-react';
-import { signOutUser } from '../auth/authActions';
+import { signOutFireBase } from '../../app/firebase/fireStoreService';
 
 export default function SignedInMenu() {
   // in order to access the history props for routing
@@ -10,7 +11,14 @@ export default function SignedInMenu() {
 
   const { currentUser } = useSelector((state) => state.auth);
 
-  const dispatch = useDispatch();
+  async function handleSignOut() {
+    try {
+      await signOutFireBase();
+      history.push('/');
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
 
   // If the user is signed in, display the photo and email
   return (
@@ -31,14 +39,7 @@ export default function SignedInMenu() {
           <Dropdown.Item text='User Profile' icon='user' />
 
           {/* when pressed the user will be signed out */}
-          <Dropdown.Item
-            onClick={() => {
-              dispatch(signOutUser());
-              history.push('/');
-            }}
-            text='Sign Out'
-            icon='power'
-          />
+          <Dropdown.Item onClick={handleSignOut} text='Sign Out' icon='power' />
         </Dropdown.Menu>
       </Dropdown>
     </Menu.Item>
