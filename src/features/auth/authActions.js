@@ -1,5 +1,6 @@
 import { SIGN_IN_USER, SIGN_OUT_USER } from './authConst';
 import fireBase from '../../app/config/fireBase';
+import { APP_LOADED } from '../../app/async/asyncReducer';
 
 export function signInUser(user) {
   return {
@@ -15,8 +16,10 @@ export function verifyUser() {
     return fireBase.auth().onAuthStateChanged((user) => {
       if (user) {
         dispatch(signInUser(user));
+        dispatch({type: APP_LOADED})
       } else {
         dispatch(signOutUser());
+        dispatch({type: APP_LOADED})
       }
     });
   };

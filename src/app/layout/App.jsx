@@ -10,11 +10,20 @@ import SandBox from '../../features/sandbox/Sandbox';
 import ModalManager from '../common/modals/ModalManager';
 import { ToastContainer } from 'react-toastify';
 import ErrorComponent from '../errors/ErrorComponent';
+import AccountPage from '../../features/auth/AccountPage';
+import { useSelector } from 'react-redux';
+import LoadingComponent from './LoadingComponent';
 
 function App() {
   // custom hook from react router, to access the location props
   // inoder to refresh the offers form, between edit and create
   const { key } = useLocation();
+
+  const { initialized } = useSelector((state) => state.async);
+
+  // check if we got the props from the server, before loading the component
+  if (!initialized) return <LoadingComponent content='Loading...' />;
+
   return (
     <Fragment>
       {/* Show Error Messages */}
@@ -33,6 +42,7 @@ function App() {
             <NavBar />
             <Container className='main'>
               <Route exact path='/offers' component={OffersDashBorad} />
+              <Route exact path='/accounts' component={AccountPage} />
               <Route exact path='/sandbox' component={SandBox} />
               <Route path='/offers/:id' component={OfferDetailPage} />
               {/* go to the offer form if any of those route are actived */}

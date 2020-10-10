@@ -13,14 +13,14 @@ export default function SignedInMenu() {
 
   async function handleSignOut() {
     try {
-      await signOutFireBase();
       history.push('/');
+      await signOutFireBase();
     } catch (error) {
       toast.error(error.message);
     }
   }
 
-  // If the user is signed in, display the photo and email
+  // If the user is signed in, display the photo and name
   return (
     <Menu.Item position='right'>
       <Image
@@ -28,7 +28,7 @@ export default function SignedInMenu() {
         spaced='right'
         src={currentUser.photoURL || '/assests/images/user.png'}
       />
-      <Dropdown pointing='top right' text={currentUser.email}>
+      <Dropdown pointing='top right' text={currentUser.displayName}>
         <Dropdown.Menu>
           <Dropdown.Item
             as={Link}
@@ -37,6 +37,14 @@ export default function SignedInMenu() {
             icon='plus'
           />
           <Dropdown.Item text='User Profile' icon='user' />
+
+          {/* To update User account */}
+          <Dropdown.Item
+            as={Link}
+            to='/accounts'
+            text='My account'
+            icon='settings'
+          />
 
           {/* when pressed the user will be signed out */}
           <Dropdown.Item onClick={handleSignOut} text='Sign Out' icon='power' />

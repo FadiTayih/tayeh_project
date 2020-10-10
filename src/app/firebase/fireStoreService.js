@@ -51,3 +51,10 @@ export async function socialLogins(selectedProvider) {
     toast.error(error.message);
   }
 }
+
+
+// Change user password
+export function updateUserPassword(creds){
+  const user = firebase.auth().currentUser;
+  return user.updatePassword(creds.newPassword)
+}
