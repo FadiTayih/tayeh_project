@@ -65,7 +65,7 @@ export function cancelOfferInFireBase(offer) {
 }
 
 // Create new user profile document in the databse
-export default function setUserProfileFireBase(user) {
+export function setUserProfileFireBase(user) {
   return db
     .collection('users')
     .doc(user.uid)
@@ -75,4 +75,9 @@ export default function setUserProfileFireBase(user) {
       photoURL: user.photoURL || null,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
+}
+
+// get the current user profile
+export function getUserProfile(userId) {
+  return db.collection('users').doc(userId);
 }

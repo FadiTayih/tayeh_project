@@ -36,7 +36,14 @@ export default function SignedInMenu() {
             text='Create Offer'
             icon='plus'
           />
-          <Dropdown.Item text='User Profile' icon='user' />
+
+          {/* goes to the profile */}
+          <Dropdown.Item
+            as={Link}
+            to={`/profile/${currentUser.uid}`}
+            text='My Profile'
+            icon='user'
+          />
 
           {/* To update User account */}
           <Dropdown.Item

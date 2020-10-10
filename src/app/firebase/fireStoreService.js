@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import firebase from '../config/fireBase';
-import setUserProfileFireBase from './fireBaseService';
+import {setUserProfileFireBase} from './fireBaseService';
 
 // authenicate and sign in the user
 export function signInWithEmail(creds) {

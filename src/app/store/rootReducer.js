@@ -4,6 +4,7 @@ import offerReducer from '../../features/offerReducer';
 import modalReducer from '../common/modals/modalReducer';
 import authReducer from '../../features/auth/authReducer';
 import asyncReducer from '../async/asyncReducer';
+import ProfileReducer from '../../features/profiles/ProfileReducer';
 
 const rootReducer = combineReducers({
   test: testReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   modal: modalReducer,
   auth: authReducer,
   async: asyncReducer,
+  profile: ProfileReducer,
 });
 
 export default rootReducer;

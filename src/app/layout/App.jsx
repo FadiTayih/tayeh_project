@@ -13,6 +13,7 @@ import ErrorComponent from '../errors/ErrorComponent';
 import AccountPage from '../../features/auth/AccountPage';
 import { useSelector } from 'react-redux';
 import LoadingComponent from './LoadingComponent';
+import ProfilePage from '../../features/profiles/profilePage/ProfilePage';
 
 function App() {
   // custom hook from react router, to access the location props
@@ -45,6 +46,7 @@ function App() {
               <Route exact path='/accounts' component={AccountPage} />
               <Route exact path='/sandbox' component={SandBox} />
               <Route path='/offers/:id' component={OfferDetailPage} />
+              <Route path='/profile/:id' component={ProfilePage} />
               {/* go to the offer form if any of those route are actived */}
               <Route
                 path={['/createOffer', '/manage/:id']}

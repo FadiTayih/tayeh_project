@@ -24,7 +24,7 @@ export function aysncActionError(error) {
 const initialState = {
   loading: false,
   error: null,
-  initialized: false
+  initialized: false,
 };
 
 export default function asyncReducer(state = initialState, { type, payload }) {
@@ -46,11 +46,11 @@ export default function asyncReducer(state = initialState, { type, payload }) {
         loading: false,
         error: payload,
       };
-      case APP_LOADED:
-        return{
-          ...state,
-          initialized: true,
-        }
+    case APP_LOADED:
+      return {
+        ...state,
+        initialized: true,
+      };
     default:
       return state;
   }
