@@ -9,7 +9,8 @@ export default function SignedInMenu() {
   // in order to access the history props for routing
   const history = useHistory();
 
-  const { currentUser } = useSelector((state) => state.auth);
+  // get the current user, who is signed in
+  const { currentUserProfile } = useSelector((state) => state.profile);
 
   async function handleSignOut() {
     try {
@@ -26,9 +27,9 @@ export default function SignedInMenu() {
       <Image
         avatar
         spaced='right'
-        src={currentUser.photoURL || '/assests/images/user.png'}
+        src={currentUserProfile.photoURL || '/assests/images/user.png'}
       />
-      <Dropdown pointing='top right' text={currentUser.displayName}>
+      <Dropdown pointing='top right' text={currentUserProfile.displayName}>
         <Dropdown.Menu>
           <Dropdown.Item
             as={Link}
@@ -40,7 +41,7 @@ export default function SignedInMenu() {
           {/* goes to the profile */}
           <Dropdown.Item
             as={Link}
-            to={`/profile/${currentUser.uid}`}
+            to={`/profile/${currentUserProfile.id}`}
             text='My Profile'
             icon='user'
           />

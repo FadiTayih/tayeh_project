@@ -2,9 +2,14 @@ import React from 'react';
 import { Tab } from 'semantic-ui-react';
 import Abouttab from './AboutTab';
 
-export default function ProfileContent({ profile }) {
+export default function ProfileContent({ profile, isCurrentUser }) {
   const panes = [
-    { menuItem: 'About', render: () => <Abouttab profile={profile} /> },
+    {
+      menuItem: 'About',
+      render: () => (
+        <Abouttab profile={profile} isCurrentUser={isCurrentUser} />
+      ),
+    },
     { menuItem: 'CarPhotos', render: () => <Tab.Pane>Car Photos</Tab.Pane> },
     { menuItem: 'Offers', render: () => <Tab.Pane>Offers</Tab.Pane> },
     { menuItem: 'Interest', render: () => <Tab.Pane>Interest</Tab.Pane> },

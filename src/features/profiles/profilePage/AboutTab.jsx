@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Grid, Header, Tab } from 'semantic-ui-react';
 import { format } from 'date-fns';
 import ProfileForm from './ProfileForm';
-export default function Abouttab({ profile }) {
+export default function Abouttab({ profile, isCurrentUser }) {
   const [editProfile, setEditProfile] = useState(false);
 
   return (
@@ -14,12 +14,16 @@ export default function Abouttab({ profile }) {
             icon='user'
             content={`About ${profile.displayName}`}
           />
-          <Button
-            floated='right'
-            basic
-            onClick={() => setEditProfile(!editProfile)}
-            content={editProfile ? 'Cancel' : 'Edit'}
-          />
+
+          {/* only display this if your checking others users profiles */}
+          {isCurrentUser && (
+            <Button
+              floated='right'
+              basic
+              onClick={() => setEditProfile(!editProfile)}
+              content={editProfile ? 'Cancel' : 'Edit'}
+            />
+          )}
         </Grid.Column>
         <Grid.Column width={16}>
           {editProfile ? (
