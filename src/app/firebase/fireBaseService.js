@@ -97,3 +97,60 @@ export async function updateUserProfile(profile) {
     throw error;
   }
 }
+
+// update user profile photo
+export async function updateUserProfilePhoto(downloadURL, filename) {
+  const user = firebase.auth().currentUser;
+  const userDocRef = db.collection('users').doc(user.uid);
+
+  try {
+    const userDoc = await userDocRef.get();
+    //  If the user does not have a default main photo then update it with the new photo
+    if (!userDoc.data().photoURL) {
+      await db.collection('users').doc(user.uid).update({
+        photoURL: downloadURL,
+      });
+      await user.updateProfile({
+        photoURL: downloadURL,
+      });
+    }
+    return await db.collection('users').doc(user.uid).collection('photos').add({
+      name: filename,
+      url: downloadURL,
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+// get the user photos
+export function getUserPhotos(userId) {
+  return db.collection('users').doc(userId).collection('photos');
+}
+
+// set the main photo of the user
+export async function setMainPhoto(photo) {
+  const user = firebase.auth().currentUser;
+
+  try {
+    await db.collection('users').doc(user.uid).update({
+      photoURL: photo.url,
+    });
+    return await user.updateProfile({
+      photoURL: photo.url,
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+// delete the photos from the user colleciton
+export function deletePhotoFromColleciton(photoId) {
+  const userId = firebase.auth().currentUser.uid;
+  return db
+    .collection('users')
+    .doc(userId)
+    .collection('photos')
+    .doc(photoId)
+    .delete();
+}

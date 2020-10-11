@@ -1,6 +1,7 @@
+
 import { toast } from 'react-toastify';
 import firebase from '../config/fireBase';
-import {setUserProfileFireBase} from './fireBaseService';
+import { setUserProfileFireBase } from './fireBaseService';
 
 // authenicate and sign in the user
 export function signInWithEmail(creds) {
@@ -52,9 +53,23 @@ export async function socialLogins(selectedProvider) {
   }
 }
 
-
 // Change user password
-export function updateUserPassword(creds){
+export function updateUserPassword(creds) {
   const user = firebase.auth().currentUser;
-  return user.updatePassword(creds.newPassword)
+  return user.updatePassword(creds.newPassword);
+}
+
+// upload a new photo to the store
+export function uploadToFireBaseStorage(file, fileName) {
+  const user = firebase.auth().currentUser;
+  const storageRef = firebase.storage().ref();
+  return storageRef.child(`${user.uid}/cars_photos/${fileName}`).put(file);
+}
+
+// delete photos from firesbase
+export function deletePhotoFormFireBaseStorge(fileName) {
+  const userUid = firebase.auth().currentUser.uid;
+  const storageRef = firebase.storage().ref();
+  const photoRef = storageRef.child(`${userUid}/cars_photos/${fileName}`);
+  return photoRef.delete();
 }
