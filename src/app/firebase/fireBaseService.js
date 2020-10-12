@@ -205,13 +205,4 @@ export async function cancelUserPlaceInInterestList(offer) {
   }
 }
 
-// Get the offers in the user profile page
-export function getUserOffersQuery(activeTab, userId) {
-  let offerRef = db.collection('offers');
-  switch (activeTab) {
-    case 1: //hosting
-      return offerRef.where('hostUid', '==', userId);
-    default:
-      return offerRef;
-  }
-}
+
