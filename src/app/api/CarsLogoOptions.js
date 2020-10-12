@@ -8,7 +8,7 @@ export const LogoData = [
   {
     key: '2',
     text: 'Ford',
-    value: 'Frd',
+    value: 'Ford',
     image: { avatar: true, src: '/assests/images/ford.png' },
   },
   {

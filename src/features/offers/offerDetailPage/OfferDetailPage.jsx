@@ -20,6 +20,14 @@ export default function OfferDetailPage({ match }) {
 
   const { loading, error } = useSelector((state) => state.async);
 
+  const { currentUser } = useSelector((state) => state.auth);
+
+  // Check if the user is the host of that offer
+  const isHost = offer?.hostUid === currentUser.uid;
+
+  // check if the current user is in the interested list
+  const isInterested = offer?.interested?.some((a) => a.id === currentUser.uid);
+
   const dispatch = useDispatch();
 
   //  custom hooks to get document from fireStore, if the redux store
@@ -40,12 +48,19 @@ export default function OfferDetailPage({ match }) {
   return (
     <Grid>
       <Grid.Column width={10}>
-        <OfferDetailedHeader offer={offer} />
+        <OfferDetailedHeader
+          offer={offer}
+          isHost={isHost}
+          isInterested={isInterested}
+        />
         <OfferDetailedInfo offer={offer} />
         <OfferDetailedChat />
       </Grid.Column>
       <Grid.Column width={6}>
-        <OfferDetailedSideBar interested={offer?.interested} />
+        <OfferDetailedSideBar
+          interested={offer?.interested}
+          hostUid={offer.hostUid}
+        />
       </Grid.Column>
     </Grid>
   );

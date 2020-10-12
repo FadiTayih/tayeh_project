@@ -27,9 +27,9 @@ export default function SignedInMenu() {
       <Image
         avatar
         spaced='right'
-        src={currentUserProfile.photoURL || '/assests/images/user.png'}
+        src={currentUserProfile?.photoURL || '/assests/images/user.png'}
       />
-      <Dropdown pointing='top right' text={currentUserProfile.displayName}>
+      <Dropdown pointing='top right' text={currentUserProfile?.displayName}>
         <Dropdown.Menu>
           <Dropdown.Item
             as={Link}
@@ -41,7 +41,7 @@ export default function SignedInMenu() {
           {/* goes to the profile */}
           <Dropdown.Item
             as={Link}
-            to={`/profile/${currentUserProfile.id}`}
+            to={`/profile/${currentUserProfile?.id}`}
             text='My Profile'
             icon='user'
           />

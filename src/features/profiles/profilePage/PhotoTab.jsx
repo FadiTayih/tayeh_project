@@ -82,7 +82,7 @@ export default function Abouttab({ profile, isCurrentUser }) {
             />
           )}
         </Grid.Column>
-        <Grid.Column width={16}>
+        <Grid.Column width={16  }>
           {editProfile ? (
             <PhotoUploadWidget setEditMode={setEditProfile} />
           ) : (

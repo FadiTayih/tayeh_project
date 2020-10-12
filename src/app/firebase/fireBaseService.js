@@ -1,4 +1,3 @@
-import cuid from 'cuid';
 import firebase from '../config/fireBase';
 
 const db = firebase.firestore();
@@ -23,9 +22,19 @@ export function dataFromFireStore(snapShot) {
   };
 }
 
-// listing and getting the offers
-export function listenToOffersFromFireBase() {
-  return db.collection('offers');
+// listing and getting the offers and filter the offers based on the predicates
+export function listenToOffersFromFireBase(predicates) {
+  const user = firebase.auth().currentUser;
+  const offerRef = db.collection('offers');
+
+  switch (predicates.get('filter')) {
+    case 'isInterested':
+      return offerRef.where('interestedIds', 'array-contains', user.uid);
+    case 'isHosting':
+      return offerRef.where('hostUid', '==', user.uid);
+    default:
+      return offerRef;
+  }
 }
 
 // connecting to the document in firebase
@@ -35,14 +44,16 @@ export function listentoOfferFromFireBase(offerId) {
 
 // add doc to firebase
 export function addOfferToFireBase(offer) {
+  const user = firebase.auth().currentUser;
   return db.collection('offers').add({
     ...offer,
-    createdBy: 'Bob',
-    carPhotoURL: '/assests/images/carImage1.png',
+    createdBy: user.displayName,
+    hostUid: user.uid,
+    carPhotoURL: user.photoURL || null,
     interested: firebase.firestore.FieldValue.arrayUnion({
-      id: cuid(),
-      name: 'jeans',
-      photoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
+      id: user.uid,
+      name: user.displayName,
+      photoURL: user.photoURL || null,
     }),
   });
 }
@@ -153,4 +164,54 @@ export function deletePhotoFromColleciton(photoId) {
     .collection('photos')
     .doc(photoId)
     .delete();
+}
+
+// user join an offer
+export function addUserToInterestList(offer) {
+  const user = firebase.auth().currentUser;
+
+  return db
+    .collection('offers')
+    .doc(offer.id)
+    .update({
+      interested: firebase.firestore.FieldValue.arrayUnion({
+        id: user.uid,
+        name: user.displayName,
+        photoURL: user.photoURL || null,
+      }),
+      // used to query, to find which user with his id is interested
+      interestedIds: firebase.firestore.FieldValue.arrayUnion(user.uid),
+    });
+}
+
+// user cancel their place in an offer
+export async function cancelUserPlaceInInterestList(offer) {
+  const user = firebase.auth().currentUser;
+
+  try {
+    // in order to remove an object from array, we need it reference
+    const offerDoc = await db.collection('offers').doc(offer.id).get();
+    return db
+      .collection('offers')
+      .doc(offer.id)
+      .update({
+        interestedIds: firebase.firestore.FieldValue.arrayRemove(user.uid),
+        interested: offerDoc
+          .data()
+          .interested.filter((interest) => interest.id !== user.uid),
+      });
+  } catch (error) {
+    throw error;
+  }
+}
+
+// Get the offers in the user profile page
+export function getUserOffersQuery(activeTab, userId) {
+  let offerRef = db.collection('offers');
+  switch (activeTab) {
+    case 1: //hosting
+      return offerRef.where('hostUid', '==', userId);
+    default:
+      return offerRef;
+  }
 }

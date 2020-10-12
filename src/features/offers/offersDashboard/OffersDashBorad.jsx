@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import OfferList from './OfferList';
 import OfferListItemoPlaceHolder from './OfferListItemPlaceHolder';
 
@@ -19,13 +19,21 @@ export default function OffersDashBorad() {
   // get the loading state from redux
   const { loading } = useSelector((state) => state.async);
 
+  // used for filtering offers, set of key value pairs
+  const [predicate, setPredicate] = useState(new Map([['filter', 'all']]));
+
+  // handle offer filtering
+  function handleSetPredicate(key, value) {
+    setPredicate(new Map(predicate.set(key, value)));
+  }
+
   const dispatch = useDispatch();
 
   // Custom hook to get data from fireStore
   useFireStoreCollection({
-    query: () => listenToOffersFromFireBase(),
+    query: () => listenToOffersFromFireBase(predicate),
     data: (offers) => dispatch(listenToOffers(offers)),
-    deps: [dispatch],
+    deps: [dispatch, predicate],
   });
 
   return (
@@ -40,7 +48,11 @@ export default function OffersDashBorad() {
         <OfferList offers={offers} />
       </GridColumn>
       <GridColumn width={6}>
-        <OfferFilter />
+        <OfferFilter
+          predicate={predicate}
+          setPredicate={handleSetPredicate}
+          loading={loading}
+        />
       </GridColumn>
     </Grid>
   );

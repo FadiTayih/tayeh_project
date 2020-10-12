@@ -1,18 +1,32 @@
 import React from 'react';
-import Calendar from 'react-calendar';
 import { Header, Menu } from 'semantic-ui-react';
 
-export default function OfferFilter() {
+export default function OfferFilter({ predicate, setPredicate, loading }) {
   return (
     <>
       <Menu vertical size='large' style={{ width: '100%' }}>
         <Header icon='filter' attached color='teal' content='Filters' />
-        <Menu.Item content='All Offers' />
-        <Menu.Item content="I'm Interested In" />
-        <Menu.Item content="I'm Offering" />
+        {/* check if the item is filter all then apply */}
+        <Menu.Item
+          active={predicate.get('filter') === 'all'}
+          onClick={() => setPredicate('filter', 'all')}
+          disabled={loading}
+          content='All Offers'
+        />
+        <Menu.Item
+          content="I'm Interested In"
+          active={predicate.get('filter') === 'isInterested'}
+          onClick={() => setPredicate('filter', 'isInterested')}
+          disabled={loading}
+        />
+        <Menu.Item
+          content="I'm Offering"
+          active={predicate.get('filter') === 'isHosting'}
+          onClick={() => setPredicate('filter', 'isHosting')}
+          disabled={loading}
+        />
       </Menu>
-      <Header icon='calendar' attached color="teal" content='Select Date'  />
-      <Calendar />
+
     </>
   );
 }

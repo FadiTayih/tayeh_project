@@ -1,7 +1,8 @@
 import React from 'react';
-import { Segment, Item } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { Segment, Item, Label } from 'semantic-ui-react';
 
-export default function OfferDetailedSideBar({ interested }) {
+export default function OfferDetailedSideBar({ interested, hostUid }) {
   return (
     <>
       <Segment
@@ -20,7 +21,22 @@ export default function OfferDetailedSideBar({ interested }) {
         <Item.Group relaxed divided>
           {/* Loop throught the interested people */}
           {interested.map((interest) => (
-            <Item key={interest.id} style={{ position: 'relative' }}>
+            // each item is a link to the user profile
+            <Item
+              as={Link}
+              to={`/profile/${interest.id}`}
+              key={interest.id}
+              style={{ position: 'relative' }}
+            >
+              {/* If the user is the host, show this ribbon message */}
+              {hostUid === interest.id && (
+                <Label
+                  style={{ position: 'absolute' }}
+                  ribbon='right'
+                  color='blue'
+                  content='Host'
+                />
+              )}
               {/* interested photos */}
               <Item.Image
                 size='tiny'

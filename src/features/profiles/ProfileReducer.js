@@ -1,6 +1,7 @@
 import {
   LISTEN_TO_CURRENT_USER_PROFILE,
   LISTEN_TO_SELECTED_USER_PROFILE,
+  LISTEN_TO_User_OFFERS,
   LISTEN_TO_USER_PHOTO,
 } from './ProfileConst';
 
@@ -8,6 +9,7 @@ const initalState = {
   currentUserProfile: null,
   selectedUserPorfile: null,
   photos: [],
+  profileOffer: [],
 };
 
 export default function ProfileReducer(state = initalState, { type, payload }) {
@@ -26,6 +28,11 @@ export default function ProfileReducer(state = initalState, { type, payload }) {
       return {
         ...state,
         photos: payload,
+      };
+    case LISTEN_TO_User_OFFERS:
+      return {
+        ...state,
+        profileOffer: payload,
       };
     default: {
       return state;

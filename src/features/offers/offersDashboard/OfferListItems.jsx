@@ -11,7 +11,11 @@ export default function OfferListItems({ offer }) {
       <Segment>
         <Item.Group>
           <Item>
-            <Item.Image size='large' src={offer.carPhotoURL} />
+            <Item.Image
+              size='medium'
+              src={offer.carPhotoURL}
+              style={{ objectFit: 'cover' }}
+            />
             <Item.Content>
               {offer.isCancelled && (
                 <Label
@@ -67,6 +71,7 @@ export default function OfferListItems({ offer }) {
 
       {/* Loop thorugh offer props and past it to the offerListInterest component  */}
       <Segment secondary>
+        <p>People Interested in this offer</p>
         <List horizontal>
           {offer.interested.map((interest) => (
             <OfferListInterest key={interest.id} interest={interest} />
