@@ -54,7 +54,7 @@ export default function OfferDetailPage({ match }) {
           isInterested={isInterested}
         />
         <OfferDetailedInfo offer={offer} />
-        <OfferDetailedChat />
+        <OfferDetailedChat offerId={offer.id} />
       </Grid.Column>
       <Grid.Column width={6}>
         <OfferDetailedSideBar

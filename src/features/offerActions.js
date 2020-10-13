@@ -2,6 +2,7 @@ import {
   CREATE_OFFER,
   DELETE_OFFER,
   FETCH_OFFERs,
+  LISTEN_To_OFFER_CHAT,
   UPDATE_OFFER,
 } from './offerConst';
 import {
@@ -50,5 +51,12 @@ export function deleteOffer(offerId) {
   return {
     type: DELETE_OFFER,
     payload: offerId,
+  };
+}
+
+export function listenToOfferChat(comment) {
+  return {
+    type: LISTEN_To_OFFER_CHAT,
+    payload: comment,
   };
 }

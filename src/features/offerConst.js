@@ -2,3 +2,5 @@ export const CREATE_OFFER = 'CREATE_OFFER';
 export const UPDATE_OFFER = 'UPDATE_OFFER';
 export const DELETE_OFFER = 'DELETE_OFFER';
 export const FETCH_OFFERs = 'FETCH_OFFERs';
+export const LISTEN_To_OFFER_CHAT = 'LISTEN_To_OFFER_CHAT';
+export const CLEAR_COMMENTS = 'CLEAR_COMMENTS';

@@ -22,6 +22,15 @@ export function dataFromFireStore(snapShot) {
   };
 }
 
+// change the values coming from firesbase from objects to arrays
+export function firebaseObjectToArray(snapshot) {
+  if (snapshot) {
+    return Object.entries(snapshot).map((e) =>
+      Object.assign({}, e[1], { id: e[0] })
+    );
+  }
+}
+
 // listing and getting the offers and filter the offers based on the predicates
 export function listenToOffersFromFireBase(predicates) {
   const user = firebase.auth().currentUser;
@@ -205,4 +214,21 @@ export async function cancelUserPlaceInInterestList(offer) {
   }
 }
 
+// chat/ comment section / reply
+export function addOfferChatComment(offerId, values) {
+  const user = firebase.auth().currentUser;
+  const newComment = {
+    displayName: user.displayName,
+    photoURL: user.photoURL,
+    uid: user.uid,
+    text: values.comment,
+    date: Date.now(),
+    parentId: values.parentId,
+  };
+  return firebase.database().ref(`chat/${offerId}`).push(newComment);
+}
 
+// get the comment from firebase
+export function getOfferChatRef(offerId) {
+  return firebase.database().ref(`chat/${offerId}`).orderByKey();
+}
