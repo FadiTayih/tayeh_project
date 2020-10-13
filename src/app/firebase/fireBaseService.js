@@ -232,3 +232,116 @@ export function addOfferChatComment(offerId, values) {
 export function getOfferChatRef(offerId) {
   return firebase.database().ref(`chat/${offerId}`).orderByKey();
 }
+
+// create a new colleciton of followings which contains
+// 'userFollowing' will be based on the current user id
+// 'userFollower' will be based on the profile id
+// also there is the count of following
+export async function followUser(profile) {
+  const user = firebase.auth().currentUser;
+
+  // batch from fireStore to avoid authentication problems with many await methods
+  // batch first take the reference and ask which fields
+  // they want to update
+  const batch = db.batch();
+
+  try {
+    batch.set(
+      db
+        .collection('following')
+        .doc(user.uid)
+        .collection('userFollowing')
+        .doc(profile.id),
+      {
+        displayName: profile.displayName,
+        photoURL: profile.photoURL,
+        uid: profile.id,
+      }
+    );
+    // reverse of userFollowing
+    batch.set(
+      db
+        .collection('following')
+        .doc(profile.id)
+        .collection('userFollower')
+        .doc(user.uid),
+      {
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        uid: user.uid,
+      }
+    );
+    // increment the following count
+    batch.update(db.collection('users').doc(user.uid), {
+      followingCount: firebase.firestore.FieldValue.increment(1),
+    });
+    // increment the follower count
+    batch.update(db.collection('users').doc(profile.id), {
+      followerCount: firebase.firestore.FieldValue.increment(1),
+    });
+    return await batch.commit();
+  } catch (error) {
+    throw error;
+  }
+}
+
+// unfollow a user
+export async function unFollowUser(profile) {
+  const user = firebase.auth().currentUser;
+
+  // batch from fireStore to avoid authentication problems with many await methods
+  // batch first take the reference and ask which fields
+  // they want to update
+  const batch = db.batch();
+
+  try {
+    batch.delete(
+      db
+        .collection('following')
+        .doc(user.uid)
+        .collection('userFollowing')
+        .doc(profile.id)
+    );
+
+    batch.delete(
+      db
+        .collection('following')
+        .doc(profile.id)
+        .collection('userFollower')
+        .doc(user.uid)
+    );
+
+    // decrement the following count
+    batch.update(db.collection('users').doc(user.uid), {
+      followingCount: firebase.firestore.FieldValue.increment(-1),
+    });
+    // decrement the follower count
+    batch.update(db.collection('users').doc(profile.id), {
+      followerCount: firebase.firestore.FieldValue.increment(-1),
+    });
+    return await batch.commit();
+  } catch (error) {
+    throw error;
+  }
+}
+
+// get the followers collection from fireStore
+export function getFollowerColleciton(profileId) {
+  return db.collection('following').doc(profileId).collection('userFollower');
+}
+
+// get the followings collection from fireStore
+export function getFollowingsColleciton(profileId) {
+  return db.collection('following').doc(profileId).collection('userFollowing');
+}
+
+// get the followings document, based on the profile id
+export function getFollowingDoc(profileId) {
+  const userUid = firebase.auth().currentUser.uid;
+  return db
+    .collection('following')
+    .doc(userUid)
+    .collection('userFollowing')
+    .doc(profileId)
+    .get();
+}

@@ -1,4 +1,5 @@
 
+import { delBasePath } from 'next/dist/next-server/lib/router/router';
 import { toast } from 'react-toastify';
 import firebase from '../config/fireBase';
 import { setUserProfileFireBase } from './fireBaseService';
@@ -73,3 +74,5 @@ export function deletePhotoFormFireBaseStorge(fileName) {
   const photoRef = storageRef.child(`${userUid}/cars_photos/${fileName}`);
   return photoRef.delete();
 }
+
+
