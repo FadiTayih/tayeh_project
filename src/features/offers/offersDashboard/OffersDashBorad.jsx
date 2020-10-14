@@ -11,6 +11,7 @@ import { listenToOffersFromFireBase } from '../../../app/firebase/fireBaseServic
 import { listenToOffers } from '../../offerActions';
 
 import useFireStoreCollection from '../../../app/hooks/useFireStoreCollections';
+import OfferFeeds from './OfferFeeds';
 
 export default function OffersDashBorad() {
   // offers is the name of the state, offer is the name of the reducer
@@ -21,6 +22,9 @@ export default function OffersDashBorad() {
 
   // used for filtering offers, set of key value pairs
   const [predicate, setPredicate] = useState(new Map([['filter', 'all']]));
+
+  // check if the user is authenicated
+  const { authenicated } = useSelector((state) => state.auth);
 
   // handle offer filtering
   function handleSetPredicate(key, value) {
@@ -48,6 +52,7 @@ export default function OffersDashBorad() {
         <OfferList offers={offers} />
       </GridColumn>
       <GridColumn width={6}>
+        {authenicated && <OfferFeeds />}
         <OfferFilter
           predicate={predicate}
           setPredicate={handleSetPredicate}

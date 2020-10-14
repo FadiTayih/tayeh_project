@@ -258,27 +258,12 @@ export async function followUser(profile) {
         uid: profile.id,
       }
     );
-    // reverse of userFollowing
-    batch.set(
-      db
-        .collection('following')
-        .doc(profile.id)
-        .collection('userFollower')
-        .doc(user.uid),
-      {
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        uid: user.uid,
-      }
-    );
+
     // increment the following count
     batch.update(db.collection('users').doc(user.uid), {
       followingCount: firebase.firestore.FieldValue.increment(1),
     });
-    // increment the follower count
-    batch.update(db.collection('users').doc(profile.id), {
-      followerCount: firebase.firestore.FieldValue.increment(1),
-    });
+
     return await batch.commit();
   } catch (error) {
     throw error;
@@ -303,21 +288,9 @@ export async function unFollowUser(profile) {
         .doc(profile.id)
     );
 
-    batch.delete(
-      db
-        .collection('following')
-        .doc(profile.id)
-        .collection('userFollower')
-        .doc(user.uid)
-    );
-
     // decrement the following count
     batch.update(db.collection('users').doc(user.uid), {
       followingCount: firebase.firestore.FieldValue.increment(-1),
-    });
-    // decrement the follower count
-    batch.update(db.collection('users').doc(profile.id), {
-      followerCount: firebase.firestore.FieldValue.increment(-1),
     });
     return await batch.commit();
   } catch (error) {
@@ -344,4 +317,15 @@ export function getFollowingDoc(profileId) {
     .collection('userFollowing')
     .doc(profileId)
     .get();
+}
+
+// get the news on which user has join or cancel his place
+// in the offer
+export function getUserFeeds() {
+  const user = firebase.auth().currentUser;
+  return firebase
+    .database()
+    .ref(`posts/${user.uid}`)
+    .orderByKey()
+    .limitToLast(5);
 }
